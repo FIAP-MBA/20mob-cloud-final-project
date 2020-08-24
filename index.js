@@ -4,7 +4,8 @@ var app = express();
 
 var AWS = require("aws-sdk");
 
-var docClient = new AWS.DynamoDB.DocumentClient();
+var dynamodb = new AWS.DynamoDB({ region: process.env.AWS_DEFAULT_REGION });
+var docClient = new AWS.DynamoDB.DocumentClient({ service: dynamodb });
 
 var table = "students";
 
@@ -30,6 +31,13 @@ var paramsInsert = {
     }
 };
 
+var params = {
+    TableName: table,
+    Key:{
+        "RM": rm
+    }
+};
+
 console.log("Adding a new item...");
 docClient.put(paramsInsert, function(err, data) {
     if (err) {
@@ -46,13 +54,6 @@ docClient.get(params, function(err, data) {
         console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
     }
 });
-
-var params = {
-    TableName: table,
-    Key:{
-        "RM": rm
-    }
-};
 
 app.listen(port, () => {
     console.log("Sever console log.")
