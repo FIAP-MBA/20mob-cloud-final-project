@@ -35,16 +35,6 @@ var params = {
     TableName: table
 };
 
-function onScan(err, data) {
-    if (err) {
-        res.send("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-    } else {
-        data.Items.forEach(function(student) {
-           res.send(student)
-        });
-    }
-}
-
 console.log("Adding a new item...");
 docClient.put(paramsInsert, function(err, data) {
     if (err) {
@@ -58,6 +48,14 @@ app.listen(port, () => {
     console.log("Sever console log.")
 });
 
-app.get('/', function (req, res) {
-    docClient.scan(params, onScan);
+app.get('/', function(req, res) {
+    docClient.scan(params, function(err, data) {
+        if (err) {
+            res.send("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+        } else {
+            data.Items.forEach(function(student) {
+               res.send(student)
+            });
+        }
+    });
 });
