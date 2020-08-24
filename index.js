@@ -20,6 +20,33 @@ AWS.config.update({
   "sessionToken" : process.env.AWS_SESSION_TOKEN,
 });
 
+var paramsInsert = {
+    TableName:table,
+    Item:{
+        "RM": "RM123456",
+        "age": "26",
+        "name": "Cidão",
+        "email": "teste@teste.com"
+    }
+};
+
+console.log("Adding a new item...");
+docClient.put(paramsInsert, function(err, data) {
+    if (err) {
+        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("Added item:", JSON.stringify(data, null, 2));
+    }
+});
+
+docClient.get(params, function(err, data) {
+    if (err) {
+        console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+    }
+});
+
 var params = {
     TableName: table,
     Key:{
@@ -32,11 +59,5 @@ app.listen(port, () => {
 });
 
 app.get('/', function (req, res) {
-    docClient.get(params, function(err, data) {
-        if (err) {
-            console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-        } else {
-            console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-        }
-    });
+    res.send("Gostou")
 });
