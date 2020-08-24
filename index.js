@@ -7,6 +7,8 @@ var AWS = require("aws-sdk");
 var dynamodb = new AWS.DynamoDB({ region: process.env.AWS_DEFAULT_REGION });
 var docClient = new AWS.DynamoDB.DocumentClient({ service: dynamodb });
 
+var table = "students";
+
 const port = process.env.port || 5000;
 
 AWS.config.update({
