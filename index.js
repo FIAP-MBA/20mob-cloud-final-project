@@ -47,18 +47,19 @@ docClient.put(paramsInsert, function(err, data) {
     }
 });
 
-docClient.get(params, function(err, data) {
-    if (err) {
-        console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-    } else {
-        console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-    }
-});
+
 
 app.listen(port, () => {
     console.log("Sever console log.")
 });
 
-app.get('/', function (req, res) {
-    res.send("Gostou")
+app.get('/', async(req, res)=> {
+    const result = await docClient.get(params, function(err, data) {
+        if (err) {
+            return JSON.stringify(err, null, 2);
+        } else {
+            return JSON.stringify(data, null, 2);
+        }
+    });
+    return res.JSON[{result}]
 });
