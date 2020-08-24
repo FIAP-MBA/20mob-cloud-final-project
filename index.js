@@ -47,19 +47,16 @@ docClient.put(paramsInsert, function(err, data) {
     }
 });
 
-
-
 app.listen(port, () => {
     console.log("Sever console log.")
 });
 
-app.get('/', async(req, res)=> {
-    const result = await docClient.get(params, function(err, data) {
+app.get('/', function (req, res) {
+    docClient.get(params, function(err, data) {
         if (err) {
-            return JSON.stringify(err, null, 2);
+            res.send(JSON.stringify(err, null, 2));
         } else {
-            return JSON.stringify(data, null, 2);
+            res.send(JSON.stringify(data, null, 2));
         }
     });
-    return res.JSON({result})
 });
