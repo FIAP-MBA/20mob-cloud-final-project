@@ -61,5 +61,5 @@ app.get('/', async(req, res)=> {
             return JSON.stringify(data, null, 2);
         }
     });
-    return res.JSON[{result}]
+    return res.JSON({result})
 });
