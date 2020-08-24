@@ -53,9 +53,7 @@ app.get('/', function(req, res) {
         if (err) {
             res.send("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
         } else {
-            data.Items.forEach(function(student) {
-               res.send(student)
-            });
+            res.send(data.Items)
         }
     });
 });
